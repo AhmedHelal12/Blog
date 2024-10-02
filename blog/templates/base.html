@@ -6,14 +6,24 @@
     <title>Base</title>
 </head>
 <body>
-    <header>
-        
+    <header >
         {% if user.is_authenticated %}
+        {% for category in categories %}
+            <a href="{% url 'category' category.id %}"> {{category}} </a>
+
+        {% endfor %}
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit"> Logout>
+                <button type="submit"> Logout</button>
             </form>
             <a href="{% url 'profile' %}"> Profile </a>
+
+            <form method="POST" action="{% url 'list_posts' %}">
+                {% csrf_token %}
+                <input type="text" placeholder="search by title" name='query_search' /> 
+                <button type="submit"> Search </button>
+            </form>
+
 
         {% else %}
             <a href="{% url 'login' %}"> Login </a>

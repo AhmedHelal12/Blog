@@ -1,17 +1,30 @@
+from typing import Any
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.views.generic import CreateView,ListView,UpdateView,DeleteView,DetailView
-from .models import Post,Comment
+from .models import Post,Comment,Category
 from .forms import PostForm,CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+from django.shortcuts import get_object_or_404
 
-class ListPostView(LoginRequiredMixin,ListView):
-    model = Post
-    template_name = 'post/listPosts.html'
-    context_object_name = 'posts'
 
+def list_post_view(request):
+    if request.method == "POST":
+        query = request.POST['query_search']
+        if query:
+            posts = Post.objects.filter(title__icontains=query)
+    else:
+        posts = Post.objects.all()
+
+    return render(request,'post/listPosts.html',{'posts':posts})
+
+def category_view(request,pk):
+    posts = Post.objects.filter(category_id=pk)
+
+    return render(request,'post/listPosts.html',{'posts':posts})
 
 class CreatePostView(LoginRequiredMixin,CreateView):
     model = Post
