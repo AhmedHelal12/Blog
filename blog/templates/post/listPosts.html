@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{% url 'create_post' %}"> create </a>
+    {% for post in posts %}
+        <div>
+            <h1> {{post.title}} </h1>
+            <p> {{post.content}} </p>
+            <p> {{post.created_at}}  </p>
+            
+            {% if post.author_id == user.id %}
+            
+                <a href="{% url 'update_post' post.id %}"> Edit </a>
+                <form action="{% url 'delete_post' post.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"> Delete </button>
+                </form>
+                
+            {% endif %}
+            
+            <a href="{% url 'view_post' post.id %}"> View</a>
+        </div>
+        
+    {% endfor %}
+{% endblock content %}
