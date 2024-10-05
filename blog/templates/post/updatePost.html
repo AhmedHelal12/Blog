@@ -1,10 +1,9 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
     <form action="{% url 'update_post' object.id %}" method="POST">
         {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Update</button>
+        {% include "common/form.html" with form=form %}
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
     </form>
 {% endblock content %}

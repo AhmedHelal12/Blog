@@ -3,7 +3,7 @@
 <form method="POST" action='{% url "register" %}'>
     {% csrf_token %} 
     {% include "common/form.html" with form=form %}
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-primary mt-2">Register</button>
 </form>
 
 {% endblock content %}

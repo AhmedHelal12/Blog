@@ -1,25 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %} {% for post in posts %}
 
-{% block content %}
-    <a href="{% url 'create_post' %}"> create </a>
-    {% for post in posts %}
-        <div>
-            <h1> {{post.title}} </h1>
-            <p> {{post.content}} </p>
-            <p> {{post.created_at}}  </p>
-            
-            {% if post.author_id == user.id %}
-            
-                <a href="{% url 'update_post' post.id %}"> Edit </a>
-                <form action="{% url 'delete_post' post.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit"> Delete </button>
-                </form>
-                
-            {% endif %}
-            
-            <a href="{% url 'view_post' post.id %}"> View</a>
+<div class="bg-light border rounded  border-white m-3 c">
+
+    <div class="right  p-3">
+        <div class="d-flex justify-content-between mb-2">
+            <span>{{ post.author }}</span>
+            <span>{{ post.created_at }}</span>
         </div>
-        
-    {% endfor %}
-{% endblock content %}
+        <h5>{{ post.title }}</h5>
+        <p>{{ post.content }}</p>
+
+        <!-- Buttons should be grouped in a flexbox for alignment -->
+        <div class="d-flex justify-content-end mb-2">
+            <a href="{% url 'view_post' post.id %}" class="btn btn-light border me-2">View</a> {% if post.author_id == user.id %}
+            <a href="{% url 'update_post' post.id %}" class="btn btn-light border me-2">Edit</a>
+            <form action="{% url 'delete_post' post.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger rounded">Delete</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endfor %} {% endblock content %}

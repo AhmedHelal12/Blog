@@ -5,7 +5,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.views.generic import CreateView,ListView,UpdateView,DeleteView,DetailView
 from .models import Post,Comment,Category
-from .forms import PostForm,CommentForm
+from .forms import PostForm,CommentForm,UpdatePostForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -39,7 +39,7 @@ class CreatePostView(LoginRequiredMixin,CreateView):
 
 class UpdatePostView(LoginRequiredMixin,UpdateView):
     model = Post
-    fields = ['title','content']
+    form_class = UpdatePostForm
     template_name = 'post/updatePost.html'
     success_url = '/'
     
@@ -55,7 +55,7 @@ def handle_post_view(request,pk):
         form = CommentForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['content']
-            Comment.objects.create(content=content,post=post)
+            Comment.objects.create(content=content,post=post,author=request.user)
             return redirect('view_post',pk=pk)
 
     else:

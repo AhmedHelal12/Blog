@@ -3,7 +3,7 @@
 {% block content %}
     <form action="{% url 'create_post' %}" method="POST">
         {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Submit</button>
+        {% include "common/form.html" with form=form %}
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
 {% endblock content %}

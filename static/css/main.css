@@ -1,0 +1,24 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+    flex-direction: column;
+}
+
+.card-container .left {
+    flex: 1;
+}
+
+.card-container .right {
+    flex: 2;
+}

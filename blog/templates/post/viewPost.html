@@ -1,24 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<div class="bg-light border rounded  border-white m-3 d-flex justify-content-between">
+    <div class="left flex-grow-2 p-5"> Image </div>
+    <div class="right flex-grow-1 p-3">
+        <div class="d-flex justify-content-between mb-2">
+            <span>{{ post.author }}</span>
+            <span>{{ post.created_at }}</span>
+        </div>
+        <h5>{{ post.title }}</h5>
+        <p>{{ post.content }}</p>
 
-{% block content %}
-    <h1> {{post.title}} </h1>
-    <p> {{post.content}} </p>
-    <p> {{post.created_at}}  </p>   
+    </div>
+</div>
+<h5 class="text-primary">Comments:</h5>
+<ul class="list-unstyled">
+    {% for comment in comments %}
+    <div class="d-flex bg-light w-100 p-2 mb-2">
+        <div class="rounded-20">img</div>
+        <span>{{comment.author}}</span>
+        <p>
+            {{comment.content}}
+        </p>
+    </div>
+    {% empty %}
+    <li>No comments yet. Be the first to comment!</li>
+    {% endfor %}
+</ul>
 
-        <h2>Comments:</h2>
-    <ul>
-        {% for comment in comments %}
-            <li> {{ comment.content }}</li>
-        {% empty %}
-            <li>No comments yet. Be the first to comment!</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Leave a Comment:</h2>
-    <form method="POST" action="{% url 'view_post' post.pk %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+<h2>Leave a Comment:</h2>
+<form method="POST" action="{% url 'view_post' post.pk %}">
+    {% csrf_token %} {% include "common/form.html" with form=form %}
+    <button type="submit">Submit</button>
+</form>
 
 {% endblock content %}
